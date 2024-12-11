@@ -2,20 +2,19 @@ const mongoose = require('mongoose');
 const server = require('../rest/server');
 const appConfig = require('../../config/appConfig');
 
-
 const startDB = (app) => {
-    /**
- * database connection settings
- */
+  /**
+* database connection settings
+*/
+  console.log(appConfig.db.uri);
+  mongoose.connect(appConfig.db.uri, { useNewUrlParser: true });
 
-  mongoose.connect(appConfig.db.uri,{ useNewUrlParser: true});
-  
-  
-   mongoose.connection.on('error', function (err) {
+
+  mongoose.connection.on('error', function (err) {
     console.log(`database error:${err}`);
     process.exit(1)
   }); // end mongoose connection error
-  
+
   mongoose.connection.on('open', function (err) {
     if (err) {
       console.log(`database error:${JSON.stringify(err)}`);
@@ -25,13 +24,12 @@ const startDB = (app) => {
       /**
       * Create HTTP server.
       */
-       server.startServer(app);
+      server.startServer(app);
     }
   }); // end mongoose connection open handler
 }
 
 
 module.exports = {
-    startDB:startDB
+  startDB: startDB
 }
-  
